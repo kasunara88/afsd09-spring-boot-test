@@ -121,7 +121,17 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setSpareParts(list);
         Vehicle saved = vehicleRepo.save(vehicle);
 
-        return vwsDto;
+        VehicleWithSparePartsDTO out = new VehicleWithSparePartsDTO();
+        out.setBrand(saved.getBrand());
+        out.setModel(saved.getModel());
+        out.setEngineCapacity(saved.getEngineCapacity());
+        out.setNoOfGears(saved.getNoOfGears());
+        out.setSparePartsDTOList(
+                saved.getSpareParts().stream()
+                        .map(sp -> new SparePartsDTO(sp.getId(),sp.getName(), sp.getPrice())) // adjust fields
+                        .toList()
+        );
+        return out;
     }
 
 }
