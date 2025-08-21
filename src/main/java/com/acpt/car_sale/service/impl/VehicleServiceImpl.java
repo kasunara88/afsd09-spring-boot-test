@@ -114,15 +114,14 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setNoOfGears(vwsDto.getNoOfGears());
 
         ArrayList<SpareParts> list = new ArrayList<>();
-        for(SparePartsDTO sparePartsDTO : vwsDto.getSparePartsDTOList()){
-            list.add(new SpareParts(sparePartsDTO.getName(),sparePartsDTO.getPrice(),vehicle));
+        for (SparePartsDTO sparePartsDTO : vwsDto.getSparePartsDTOList()) {
+            list.add(new SpareParts(sparePartsDTO.getName(), sparePartsDTO.getPrice(), vehicle));
         }
 
         vehicle.setSpareParts(list);
         Vehicle saved = vehicleRepo.save(vehicle);
 
-        return new VehicleWithSparePartsDTO(saved.getBrand(), saved.getModel(), saved.getEngineCapacity(), saved.getNoOfGears(),
-                saved.getSpareParts().stream().map(sp -> new SparePartsDTO(sp.getId(),sp.getName(),sp.getPrice())).toList());
+        return vwsDto;
     }
 
 }
